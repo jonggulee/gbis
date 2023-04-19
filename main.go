@@ -5,6 +5,5 @@ import (
 )
 
 func main() {
-	// bus.Start()
 	explorer.Start()
 }

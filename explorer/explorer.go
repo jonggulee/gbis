@@ -23,8 +23,17 @@ type homeData struct {
 }
 
 func home(rw http.ResponseWriter, r *http.Request) {
+	if r.URL.Path != "/" {
+		rw.WriteHeader(http.StatusNotFound)
+		return
+	}
+
 	data := homeData{"Home", bus.GetArrivalBus(), "위례중앙중학교"}
 	templates.ExecuteTemplate(rw, "home", data)
+}
+
+func health(rw http.ResponseWriter, r *http.Request) {
+	rw.WriteHeader(http.StatusOK)
 }
 
 func Start() {
@@ -32,6 +41,7 @@ func Start() {
 	templates = template.Must(template.ParseGlob(templateDir + "pages/*.gohtml"))
 	templates = template.Must(templates.ParseGlob(templateDir + "partials/*.gohtml"))
 	handler.HandleFunc("/", home)
+	handler.HandleFunc("/health", health)
 	fmt.Printf("Listening on http://localhost:%d\n", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), handler))
 }
