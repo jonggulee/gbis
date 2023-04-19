@@ -23,12 +23,12 @@ type MsgBody struct {
 }
 
 type Bus struct {
-	StNm       string `json:"stNm"`       // 정류소명
-	RtNm       string `json:"rtNm"`       // 도착번호
-	Arrmsg1    string `json:"arrmsg1"`    // 첫번째 도착예정 버스의 도착정보 메시지
-	Arrmsg2    string `json:"arrmsg2"`    // 두번째 도착예정 버스의 도착정보 메시지
-	StationNm1 string `json:"stationNm1"` // 첫번째 도착예정 버스의 현재 정류소명
-	StationNm2 string `json:"stationNm2"` // 두번째 도착예정 버스의 현재 정류소명
+	StNm         string `json:"stNm"`         // 정류소명
+	BusRouteAbrv string `json:"busRouteAbrv"` // 도착번호
+	Arrmsg1      string `json:"arrmsg1"`      // 첫번째 도착예정 버스의 도착정보 메시지
+	Arrmsg2      string `json:"arrmsg2"`      // 두번째 도착예정 버스의 도착정보 메시지
+	StationNm1   string `json:"stationNm1"`   // 첫번째 도착예정 버스의 현재 정류소명
+	StationNm2   string `json:"stationNm2"`   // 두번째 도착예정 버스의 현재 정류소명
 }
 
 func GetArrivalBus() []Bus {
@@ -62,7 +62,7 @@ func GetArrivalBus() []Bus {
 
 	var filteredBuses []Bus
 	for _, bus := range data.MsgBody.Bus {
-		if bus.RtNm == "333" || bus.RtNm == "440" {
+		if bus.BusRouteAbrv == "333" || bus.BusRouteAbrv == "440" || bus.BusRouteAbrv == "315" {
 			filteredBuses = append(filteredBuses, bus)
 		}
 	}
