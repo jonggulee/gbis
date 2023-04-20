@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"text/template"
+	"time"
 
 	"github.com/jonggulee/gbis/bus"
 )
@@ -20,6 +21,16 @@ type homeData struct {
 	PageTitle   string
 	Buses       []bus.Bus
 	StationName string
+	// NowTime     time.Time
+	NowTime string
+}
+
+func getNowTime() string {
+	now := time.Now()
+	// kst, _ := time.LoadLocation("Asia/Seoul")
+	// kstTime := now.In(kst)
+	a := fmt.Sprintln(now.Format("1994-03-01 00:00:00 KST"))
+	return a
 }
 
 func home(rw http.ResponseWriter, r *http.Request) {
@@ -28,7 +39,9 @@ func home(rw http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data := homeData{"Home", bus.GetArrivalBus(), "위례중앙중학교"}
+	kstTime := getNowTime()
+	fmt.Println(kstTime)
+	data := homeData{"Home", bus.GetArrivalBus(), "위례중앙중학교", kstTime}
 	templates.ExecuteTemplate(rw, "home", data)
 }
 
