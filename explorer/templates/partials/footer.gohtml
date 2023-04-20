@@ -1,6 +1,16 @@
 {{define "footer"}}
-<div>
-    Last Update: {{.}}
-</div>
-<footer>&copy; 2023 YJ World</footer>
+<footer>    
+        <div class="right-align">
+            <span class="indent">Last Update:</span> {{.}}
+        </div>
+    &copy; 2023 YJ World
+</footer>
+<style>
+    .right-align {
+        text-align: right;
+    }
+    .indent {
+        margin-left: 20px;
+    }
+</style>
 {{end}}
