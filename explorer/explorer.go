@@ -29,7 +29,7 @@ func getNowTime() string {
 	now := time.Now()
 	// kst, _ := time.LoadLocation("Asia/Seoul")
 	// kstTime := now.In(kst)
-	a := fmt.Sprintln(now.Format("1994-03-01 00:00:00 KST"))
+	a := fmt.Sprintln(now.Format("2006-01-02 15:04:05 KST"))
 	return a
 }
 
