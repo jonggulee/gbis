@@ -38,7 +38,6 @@ func home(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	kstTime := getNowTime()
-	fmt.Println(kstTime)
 	data := homeData{"Home", bus.GetArrivalBus(), "위례중앙중학교", kstTime}
 	templates.ExecuteTemplate(rw, "home", data)
 }

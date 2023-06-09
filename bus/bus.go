@@ -2,6 +2,7 @@ package bus
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -31,11 +32,22 @@ type Bus struct {
 	StationNm2   string `json:"stationNm2"`   // 두번째 도착예정 버스의 현재 정류소명
 }
 
-func GetArrivalBus() []Bus {
+func CheckServiceKey() (string, error) {
 	serviceKey := os.Getenv("serviceKey")
 	if serviceKey == "" {
-		fmt.Println("service key 확인")
+		err := errors.New("service key 확인")
+		return "", err
 	}
+	return serviceKey, nil
+}
+
+func GetArrivalBus() []Bus {
+	serviceKey, err := CheckServiceKey()
+	if err != nil {
+		fmt.Println("Error:", err)
+		return nil
+	}
+
 	url := fmt.Sprintf("%s?serviceKey=%s&arsId=%s&resultType=%s", busArrivalAPIAddress, serviceKey, arsId, resultType)
 
 	resp, err := http.Get(url)
@@ -53,7 +65,6 @@ func GetArrivalBus() []Bus {
 	}
 
 	var data JsonResponse
-
 	err = json.Unmarshal(jsonData, &data)
 	if err != nil {
 		fmt.Println("Error:", err)
