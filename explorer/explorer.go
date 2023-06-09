@@ -38,7 +38,15 @@ func home(rw http.ResponseWriter, r *http.Request) {
 	}
 
 	kstTime := getNowTime()
-	data := homeData{"Home", bus.GetArrivalBus(), "위례중앙중학교", kstTime}
+	arsId := "48626" // 위례중앙중학교 정류소 번호
+	data := homeData{"Home", bus.GetArrivalBus(arsId), "위례중앙중학교", kstTime}
+	templates.ExecuteTemplate(rw, "home", data)
+}
+
+func homeJake(rw http.ResponseWriter, r *http.Request) {
+	kstTime := getNowTime()
+	arsId := "28532" // 위례중앙중학교 정류소 번호
+	data := homeData{"Home", bus.GetArrivalBus(arsId), "하남스타필드시티", kstTime}
 	templates.ExecuteTemplate(rw, "home", data)
 }
 
@@ -51,6 +59,7 @@ func Start() {
 	templates = template.Must(template.ParseGlob(templateDir + "pages/*.gohtml"))
 	templates = template.Must(templates.ParseGlob(templateDir + "partials/*.gohtml"))
 	handler.HandleFunc("/", home)
+	handler.HandleFunc("/jake", homeJake)
 	handler.HandleFunc("/health", health)
 	fmt.Printf("Listening on http://localhost:%d\n", port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), handler))

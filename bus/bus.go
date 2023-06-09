@@ -10,9 +10,10 @@ import (
 )
 
 const (
-	busArrivalAPIAddress = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid"
-	arsId                = "48626" // 위례중앙중학교 정류소 번호
-	resultType           = "json"
+	busArrivalAPIAddress          = "http://ws.bus.go.kr/api/rest/stationinfo/getStationByUid"
+	WiryeJungangMiddleSchoolArsId = "48626" // 위례중앙중학교 정류소 번호
+	WiryeStarfieldCityArsId       = "28532" // 하남시위례도서관.스타필드시티.위례지웰푸르지오
+	resultType                    = "json"
 )
 
 type JsonResponse struct {
@@ -41,7 +42,7 @@ func CheckServiceKey() (string, error) {
 	return serviceKey, nil
 }
 
-func GetArrivalBus() []Bus {
+func GetArrivalBus(arsId string) []Bus {
 	serviceKey, err := CheckServiceKey()
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -72,9 +73,17 @@ func GetArrivalBus() []Bus {
 	}
 
 	var filteredBuses []Bus
-	for _, bus := range data.MsgBody.Bus {
-		if bus.BusRouteAbrv == "333" || bus.BusRouteAbrv == "440" || bus.BusRouteAbrv == "315" {
-			filteredBuses = append(filteredBuses, bus)
+	if arsId == WiryeJungangMiddleSchoolArsId {
+		for _, bus := range data.MsgBody.Bus {
+			if bus.BusRouteAbrv == "333" || bus.BusRouteAbrv == "440" || bus.BusRouteAbrv == "315" {
+				filteredBuses = append(filteredBuses, bus)
+			}
+		}
+	} else if arsId == WiryeStarfieldCityArsId {
+		for _, bus := range data.MsgBody.Bus {
+			if bus.BusRouteAbrv == "3217" || bus.BusRouteAbrv == "231" {
+				filteredBuses = append(filteredBuses, bus)
+			}
 		}
 	}
 
