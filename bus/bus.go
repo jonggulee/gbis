@@ -81,7 +81,7 @@ func GetArrivalBus(arsId string) []Bus {
 		}
 	} else if arsId == WiryeStarfieldCityArsId {
 		for _, bus := range data.MsgBody.Bus {
-			if bus.BusRouteAbrv == "3217" || bus.BusRouteAbrv == "231" {
+			if bus.BusRouteAbrv == "3217" || bus.BusRouteAbrv == "231" || bus.BusRouteAbrv == "200" {
 				filteredBuses = append(filteredBuses, bus)
 			}
 		}
